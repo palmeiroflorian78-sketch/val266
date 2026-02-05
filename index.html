@@ -18,20 +18,25 @@
             overflow: hidden; 
         }
 
-        /* Speaker Icon Style */
-        #musicToggle {
+        /* Music Toggle Container */
+        #musicToggleContainer {
             position: fixed;
             top: 20px;
             right: 20px;
-            font-size: 24px;
+            display: flex;
+            align-items: center;
             background: white;
-            padding: 10px;
-            border-radius: 50%;
+            padding: 8px 15px;
+            border-radius: 25px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             cursor: pointer;
             z-index: 100;
             user-select: none;
+            transition: transform 0.2s;
         }
+        #musicToggleContainer:active { transform: scale(0.95); }
+        #toggleText { margin-right: 8px; font-weight: bold; color: #d32f2f; font-size: 14px; }
+        #toggleIcon { font-size: 18px; }
 
         .bg-heart {
             position: absolute;
@@ -89,7 +94,10 @@
 </head>
 <body>
 
-    <div id="musicToggle" onclick="toggleMusic()">🔇</div>
+    <div id="musicToggleContainer" onclick="toggleMusic()">
+        <span id="toggleText">Play the song</span>
+        <span id="toggleIcon">🔇</span>
+    </div>
 
     <div class="bg-heart" style="top:10%; left:10%;">🌸</div>
     <div class="bg-heart" style="top:25%; right:15%; animation-delay: 1s;">✨</div>
@@ -112,7 +120,7 @@
     </div>
 
     <div id="celebration">
-        <h1 style="font-size: 2rem; color: #d32f2f;">HELL YEAH! 💚💚</h1>
+        <h1 style="font-size: 2.2rem; color: #d32f2f;">HELL YEAH! 💚💚</h1>
         <div class="media-group">
             <img src="OPTIMUS.jpg" alt="Optimus" class="celeb-media">
             <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwcmswZWJ1YjZtNmF4eno2eDVyMnZmeHAyd3VnOWhtZjd0cTUwMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmzxB1tP8SJPg9Gbh7/giphy.webp" alt="Gguh Dance" class="celeb-media">
@@ -121,15 +129,18 @@
 
     <script>
         const music = document.getElementById('mySong');
-        const toggle = document.getElementById('musicToggle');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const toggleText = document.getElementById('toggleText');
 
         function toggleMusic() {
             if (music.paused) {
                 music.play();
-                toggle.innerText = "🔊";
+                toggleIcon.innerText = "🔊";
+                toggleText.innerText = "Playing...";
             } else {
                 music.pause();
-                toggle.innerText = "🔇";
+                toggleIcon.innerText = "🔇";
+                toggleText.innerText = "Play the song";
             }
         }
 
@@ -153,8 +164,9 @@
         }
 
         function celebrate() {
-            music.play();
-            toggle.innerText = "🔊";
+            music.play().catch(e => console.log("Audio play error"));
+            toggleIcon.innerText = "🔊";
+            toggleText.innerText = "Playing...";
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
             document.body.style.background = "#ffcdd2";
