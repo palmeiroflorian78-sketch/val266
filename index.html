@@ -5,96 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Pia 💚🩷</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #ffebee;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 400px;
-        }
-
-        /* The Love Border for your photo */
-        .photo-frame {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border: 8px solid #ff4081;
-            border-radius: 15px;
-            padding: 5px;
-            background: #fff0f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        /* Adding little hearts around the border */
-        .photo-frame::before {
-            content: "❤️";
-            position: absolute;
-            top: -15px;
-            left: -15px;
-        }
-
-        h1 {
-            color: #d32f2f;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        button {
-            padding: 12px 25px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #ffebee; font-family: 'Segoe UI', sans-serif; text-align: center; overflow: hidden; }
+        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; z-index: 10; }
+        .photo-frame { width: 220px; height: 220px; margin: 0 auto 20px; border: 8px solid #4CAF50; border-radius: 15px; padding: 5px; background: #fff; position: relative; }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .photo-frame::after { content: "❤️"; position: absolute; bottom: -15px; right: -15px; font-size: 25px; }
+        .photo-frame::before { content: "💚"; position: absolute; top: -15px; left: -15px; font-size: 25px; }
+        h1 { color: #d32f2f; font-size: 1.8rem; }
+        .buttons { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; height: 60px; }
+        button { padding: 12px 25px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
         #yesBtn { background-color: #ff4081; color: white; }
-        #noBtn { background-color: #9e9e9e; color: white; position: absolute; left: 140px; }
-
+        #noBtn { background-color: #9e9e9e; color: white; position: absolute; transition: 0.1s; }
         #celebration { display: none; }
-        .celebration-gif { width: 250px; border-radius: 15px; margin-top: 20px; }
+        .celebration-gif { width: 80%; max-width: 300px; border-radius: 15px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <audio id="mySong" loop>
+    <audio id="mySong" preload="auto">
         <source src="song.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="mainCard">
         <div class="photo-frame">
-            <img src="your-photo.jpg" alt="Us">
+            <img src="your-photo.jpg" alt="Our Photo" onerror="this.src='https://via.placeholder.com/200?text=Photo+Not+Found'">
         </div>
         <h1>Pia, will you be my Valentine? 🌹</h1>
         <div class="buttons">
@@ -104,25 +38,27 @@
     </div>
 
     <div id="celebration">
-        <h1 style="font-size: 2.5rem;">HELL YEAH, I LOVE YOU SO MUCH! 💚💚</h1>
-        <img src="success.gif" alt="Celebration" class="celebration-gif">
+        <h1 style="font-size: 2.2rem; color: #d32f2f;">HELL YEAH! 💚💚</h1>
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwcmswZWJ1YjZtNmF4eno2eDVyMnZmeHAyd3VnOWhtZjd0cTUwMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmzxB1tP8SJPg9Gbh7/giphy.gif" alt="Gguh Dance" class="celebration-gif">
     </div>
 
     <script>
+        // Pre-load the audio so it's ready
+        const music = document.getElementById('mySong');
+        
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 100);
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
 
         function celebrate() {
-            // Start the music when she clicks Yes
-            const music = document.getElementById('mySong');
-            music.play();
-
+            // Force play on click
+            music.play().catch(e => console.log("Audio issue:", e));
+            
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
             document.body.style.backgroundColor = '#ffcdd2';
